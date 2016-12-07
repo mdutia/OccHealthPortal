@@ -1,0 +1,205 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+
+<div class="container">
+    <div class="col-md-12">
+       <br><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="700" height="75" alt="EU crest">
+       <hr>
+    <div class="col-md-2" style="width:135px; padding-left:1px; padding-right:2px;">
+    <div class="well well-small" >
+        <form action="" method="post" name="index">
+        {{form.hidden_tag()}}
+        <p><strong><span style="color: Blue;">Display filters</strong> </span>
+        </p>
+        <span style="margin-left:2px; color: DarkRed;"><strong>Facility:</strong></span> <br>
+        <span style="margin-left:10px;">{{session['facility']}} </span>
+        <div class="btn-group pull-right">
+          <button type="button" class="btn-xs btn-default dropdown-toggle " data-toggle="dropdown" >
+           <small><span class="glyphicon glyphicon-chevron-down pull-right"></span></small>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="SetVar?facility=All">All</a></li>
+            <li><a href="SetVar?facility=Ash">Ash</a></li>
+            <li><a href="SetVar?facility=AWB">AWB</a></li>
+            <li><a href="SetVar?facility=CSQ">CSQ</a></li>
+            <li><a href="SetVar?facility=Evans">Evans</a></li>
+            <li><a href="SetVar?facility=HRB">HRB</a></li>
+            <li><a href="SetVar?facility=LF1">LF1</a></li>
+            <li><a href="SetVar?facility=LF2">LF2</a></li>
+            <li><a href="SetVar?facility=MacRH">MacRH</a></li>
+            <li><a href="SetVar?facility=SCRM">SCRM</a></li>
+            <li><a href="SetVar?facility=WGH">WGH</a></li>
+            <li><a href="SetVar?facility=1GSQ">1GSQ</a></li>
+            <li><a href="SetVar?facility=Teviot">Teviot</a></li>
+            <li><a href="SetVar?facility=Other">Other</a></li>
+            <li><a href="SetVar?facility=None">None</a></li>
+           </ul>
+        </div>
+      </p>
+      </p>
+        <span style="margin-left:2px;  color: DarkRed;"><strong>Status:</strong></span>  <br>
+        {%if session['status']=='Yes'%}
+        <span style="margin-left:10px;">Active</span>
+        {%elif session['status']=='No'%}
+        <span style="margin-left:10px;">Not active</span>
+        {%else%}
+        <span style="margin-left:10px;">All </span>
+        {%endif%}
+        <div class="btn-group pull-right">
+          <button type="button" class="btn-xs btn-default dropdown-toggle " data-toggle="dropdown" >
+           <small><span class="glyphicon glyphicon-chevron-down pull-right"></span></small>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="SetVar?status=Yes">Active</a></li>
+            <li><a href="SetVar?status=No">Not active</a></li>
+             <li><a href="SetVar?status=All">All</a></li>
+          </ul>
+        </div>
+      </p>
+      </p>
+        <span style="margin-left:2px;  color: DarkRed;"><strong>List order:</strong></span>  <br>
+        <span style="margin-left:10px;">{{session['list_order']}} </span>
+        <div class="btn-group pull-right">
+          <button type="button" class="btn-xs btn-default dropdown-toggle " data-toggle="dropdown" >
+           <small><span class="glyphicon glyphicon-chevron-down pull-right"></span></small>
+          </button>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="SetVar?list=Last name">Last name</a></li>
+            <li><a href="SetVar?list=Re-test ">Re-test date</a></li>
+           </ul>
+        </div>
+      </p>
+    </div>
+    <!--<hr>-->
+    <strong>
+        <input type="submit" value=" Add New User " class="btn  btn-default padding-right:40px;" name="Button">
+        <hr>
+        <input type="submit" value=" Download  " class="btn btn-default" name="Button">
+        <hr>
+        <input type="submit" value=" Clinic Organiser  " class="btn btn-default" name="Button">
+        <hr>
+        <input type="submit" value=" Manage Admins  " class="btn btn-default" name="Button">
+    </strong>
+    </form>
+    </div>
+    <div class="col-md-10" style="padding-left:1px; padding-right:0px;">
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+        <h4> <strong><span style="color: DarkRed;"> Registered Users </span></strong>
+        <p><span style='color:Blue; font-size:11px;'>Active /</span>
+        <span style='color:Brown; font-size:11px;'>Not active </span>
+
+        <div class='col-md-2' style="padding-left:1px; padding-right:0px;">
+        {%if recs.has_prev==True%}
+            <a href={{url_for ("dashboard", mode='prev_page', idd= rec) }}><span style="color: Blue;font-size:14px;"> &lt Prev page </span></strong></a>
+        {%endif%}
+        </div>
+        
+        <div class="pull-right" >
+        {%if recs.has_next==True%}
+            <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}><span style="color: Blue;font-size:14px;padding-left:25px;"> &gt Next page  </span></strong></a>   
+        {%endif%}
+
+        <!--</div>-->
+    </h4>
+    <hr>
+            <!--{ %if idx|length<=0 %}-->
+            {%set records= recs.items%}
+            {%if records|length<=0 %}
+                <br>No users found
+            {%else%}
+              <table class="table table-striped table-condensed">
+                <thead>                
+                <th>Name</th>
+                <th>Group</th>
+                <th>Facility</th>
+                <th>Last test</th>
+                <!--<th>Result</th>-->
+                <th>Retest</th>
+                <th>  </th>
+                <th>R/S/L/FF</th>
+                <th>Comment</th>
+                </thead>
+                <tbody>
+                {%for p in records%}
+                <!--{ %if p.id == selected_rec.id %}-->
+                <!--<tr style="border: solid LightBlue; ">-->
+                <!--{ %else%}-->
+                <!--{ %endif%}-->
+                <tr>
+                {%if p.active_status=='Yes'%}
+                <td><a href={{url_for ("dashboard", mode='Person', idd=p.id) }}> <span style="color: Blue;">
+                {{p.firstname}}&nbsp{{p.lastname}} </span></a> </td>
+                {%else%}
+                <td><a href={{url_for ("dashboard", mode='Person', idd=p.id) }}> <span style="color: Brown;">
+                {{p.firstname}}&nbsp{{p.lastname}} </span></a> </td>
+                {%endif%}
+                <td> {{p.supervisor}}</td>
+                <td> {{p.facility1}}
+                {% if p.facility2 !='None' %}
+                / {{p.facility2}}
+                {% endif %}
+                </td>
+                <td> {{p.last_test.split(',')[0]}}</td>
+                <td> {{p.expiry_date}}</td>
+                {%if p.days_to_expiry ==0 %}
+                    <td>-</td>
+                {%elif p.days_to_expiry <0 %}
+                    <td><strong><span style="color: Magenta;">Expired</td>
+                        <!--<td><strong> <span style="color: Red;">{ {last_tests[p][2]}} </td>
+                        <td><strong> <span style="color: Red;">Expired</strong></span> </td>-->
+                {%elif p.days_to_expiry <=30 %}
+                        <td><strong><span style="color: Magenta;">< 1m </td>
+                {%elif p.days_to_expiry <=60 %}
+                        <td><strong><span style="color: Magenta;">< 2m </td>
+                {%elif p.days_to_expiry <=90 %}
+                        <td><strong><span style="color: Brown;">< 3m </td>
+                {%elif p.days_to_expiry >90 %}
+                        <td><strong><span style="color: Green;">> 3m </td>
+                {%endif%}
+
+                {%set ss='' %}
+                {%if 'Y' in p.restrictions%}
+                {%set ss= ss+'R ' %}
+                {%endif%}
+                {%if 'Y' in p.skin and 'Y' in p.lung%}
+                {%set ss= ss+'S L' %}
+                <!--<td><strong><span style="color: Red;background-color:White;">S L</span></strong> -->
+                {%elif 'Y' in p.skin and 'N' in p.lung%}
+                {%set ss= ss+'S' %}
+                <!--<td><strong><span style="color: Red;background-color:White;">S</span></strong> -->
+                {%elif 'N' in p.skin and 'Y' in p.lung%}
+                {%set ss= ss+'L' %}
+                <!--<td><strong><span style="color: Red;background-color:White;">L</span></strong> -->
+                {%endif%}
+                {%if ss|length >0 %}
+                <td><strong><span style="color: Red;background-color:White;">{{ss}}</span></strong> 
+                {%else%}
+                <td>- 
+                {%endif%}
+                {%if 'Y' in p.facefit%}
+                <strong><span style="color: Red;background-color:White;"> FF</span></strong> </td>
+                {%else%}
+                </td> 
+                {%endif%}
+                <td>{{p.comment}}</td>
+                </tr>
+                {%endfor%}
+                </tbody>
+              </table>
+            {%endif%} 
+    </div>
+    </div>
+
+
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

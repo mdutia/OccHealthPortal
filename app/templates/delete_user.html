@@ -1,0 +1,39 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/cerulean/bootstrap.min.css" rel="stylesheet">-->
+<div class="container">
+<form action="" method="post" name="DeleteProject">
+    <div class="col-md-10 col-md-offset-0">
+       <br><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="700" height="75" alt="EU crest">
+       <hr>
+    </div>
+    <br>
+    <div class="col-md-3 col-md-offset-2">
+    <div class="well well-sm">
+        <h5><strong><span style="color: DarkRed;">        
+        {{selected_rec.firstname}} {{selected_rec.lastname}} </span></h5></strong> 
+    </div>
+    <!--<div class="panel-body">-->
+      <!--<div class="alert alert-info" role="alert">-->
+       <!--<strong><span style="color: DarkRed;">-->
+       <!--Project number: 150{ {projectnumber}}<br>{{projecttitle}}-->
+       <!--</span></strong>-->
+      <!--</div>-->
+
+     <!--<div class= "col-md-7">-->
+      <p><strong>Delete this User - are you sure? </strong><br><br>
+      <p><input type="submit" value=" Confirm Delete this User " class="btn-sm btn-danger" name="Button"> <br><br>
+      <p><input type="submit" value=" Cancel " class="btn-sm btn-success" name="Button"> <br><br>
+     </div>   
+    </div>
+   </div>
+  </div>
+{% endblock  %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

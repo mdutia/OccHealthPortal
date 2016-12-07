@@ -1,0 +1,40 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<div class="container">
+<div class="col-md-10 col-md-offset-0">
+    <br><p><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="680" height="75" alt="EU crest"></p>
+<br>
+<br>
+    <form  action="" method="post" name="get_clinic-date">
+        {{form.hidden_tag()}}
+        <p>
+        <br><strong>Current EASE users authorised to access the database : <br> </strong>
+        <p>
+        {%for a in ad%}
+        {{a.username}}<br>
+        {%endfor%}
+        </p>
+        <p>
+        <br>Enter the EASE username of an additional admin : 
+        {{form.AdminUUN(size=30)}}<br>
+        {%if err==True%}
+        <span style='color:Red'>Please enter a valid username </span>
+        {%endif%}
+        <br><br>
+        <strong>Note: all administrators have full access to the database (create, edit, delete records), including creation of new admins<br><br>
+        Use with care!<br> </strong>
+        <br>
+        <p><input type="submit" value=" Add Admin " class="btn btn-success" name='Button'></p>
+        <p><input type="submit" value=" Back " class="btn btn-info" name='Button'></p>
+</div>
+</div>
+</form>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

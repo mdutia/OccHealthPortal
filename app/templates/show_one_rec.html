@@ -1,0 +1,235 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/cerulean/bootstrap.min.css" rel="stylesheet">-->
+<div class="container">
+    <div class="col-md-12 col-md-offset-0">
+       <br><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="700" height="75" alt="EU crest">
+       <hr>
+    <div class="col-md-1 ">
+        <p><strong><a href={{url_for ("dashboard", filters=1) }}> <span style="color: Blue;">Back </strong> </span></a>
+        <hr>
+    </div>
+
+    {%if mode=='Person'%}
+    <div class="col-md-4 col-md-offset-1">
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+        {%set rec= selected_rec %}
+        <table class="table table-condensed" style="background-color:LightCyan;">
+        <th><strong><span style="color: DarkRed";>{{rec.firstname}}&nbsp{{rec.lastname}} </strong></span></th>
+        <th>
+           <a href={{url_for ("dashboard", mode='Edit_Person', idd= rec) }}> 
+           <span class="glyphicon glyphicon-pencil" style="color: Blue; font-size:16px; padding-left:20px;"></strong> </span></a>
+           <a href={{url_for ("dashboard", mode='Delete_Person', idd= rec) }}> 
+           <span class="glyphicon glyphicon-remove" style="color: Red; font-size:16px; padding-left:20px;"></strong> </span></a>
+        </th>          
+        <tbody>
+        <tr>
+        <td><strong>Staff number</strong> </td>
+        <td>{{rec.roll}}</td>
+        </tr><tr>
+        <td><strong>Email</strong></td>
+        <td>{{rec.email}}</td>
+        </tr><tr>
+        <td><strong>Group</strong></td>
+        <td>{{rec.supervisor}}</td>
+        </tr><tr>
+        <td><strong>Location</strong></td>
+        <td>{{rec.location}}</td>
+        </tr><tr>
+        <td><strong>Primary Facility</strong></td>
+        <td>{{rec.facility1}}</td>
+        </tr><tr>
+        <td><strong>Secondary Facility</strong></td>
+        <td>{{rec.facility2}}</td>
+        </tr><tr>
+        <td><strong>Active</strong></td>
+        <td>{{rec.active_status}}</td>
+        </tr><tr>
+        <td><strong>Restrictions</strong></td>
+        <td>{{rec.restrictions}}</td>
+        </tr><tr>
+        <td><strong>Skin/Lung</strong></td>
+        <td>{{rec.skin}}/{{rec.lung}}</td>
+        </tr><tr>
+        <td><strong>Facefit</strong></td>
+        <td>{{rec.facefit}}</td>
+        </tr><tr>
+        <td><strong>Comment</strong></td>
+        <td>{{rec.comment}}</td>
+        </tr>
+        </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-4 ">
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+        <table class="table table-striped">
+        <th>Test history</th><td>  </td>
+        <th>
+        <a href={{url_for ("dashboard", mode='Add_Test', idd= rec) }}> 
+        <span class="glyphicon glyphicon-plus" style="color: Blue; font-size:16px; padding-left:20px;"></strong> </span></a>
+        </th>
+        
+        <tbody>          
+        <tr>
+        <td><strong>Last test </td>
+        {%if rec.last_test!='-,-'%}
+        <td><strong>{{rec.last_test.split(',')[0]}}</td>
+        <td><strong>{{rec.last_test.split(',')[1]}}</td>
+        {%else%}
+        <td><strong>None</td>
+        {%endif%}
+        </strong></span>
+        </tr>
+        <tr><td>  </td><td>  </td><td>  </td><tr>
+        <tr>
+        <td>Previous tests </td><td>  </td><td>  </td>
+        </tr>
+        {%if testhistory=='-,-' %}
+        <td>None</td>
+        {%else%}
+        {%for tst in testhistory%}
+        <tr>
+          <td>{{tst.split(',')[0]}}<td>
+          <td>{{tst.split(',')[1]}}<td>
+        </tr>
+        {%endfor%}
+        {%endif%}
+        </table>
+     </div>
+    </div>
+    {%elif mode=='Edit_Person'%}
+    <!--{ %if selected_rec>0%}-->
+    <div class="col-md-5  col-md-offset-1">
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+      <form action="" method="post" name="index">
+        {{form.hidden_tag()}}
+        {%set rec= selected_rec %}
+        <table class="table table-condensed" >
+        <tbody>
+        <tr>
+        <!--<td><strong>Title</strong></td>-->
+        <!--<td>{ {form.title}} </td>-->
+        <!--</tr><tr>-->
+        <td>
+        {%if form.errors['firstname']==True %}
+        <strong><span style="color:Red">First name (required)</span></strong></td>
+        <td>{{form.firstname (size=20)}} </td>
+        {%else%}        
+        <strong>First name</strong></td>
+        <td>{{form.firstname (size=20)}} </td>
+        {%endif%}
+        </tr><tr>
+        <td>
+        {%if form.errors['lastname']==True %}
+        <strong><span style="color:Red">Last name (required)</span></strong></td>
+        <td>{{form.lastname (size=20)}} </td>
+        {%else%}        
+        <strong>Last name</strong></td>
+        <td>{{form.lastname (size=20)}} </td>
+        {%endif%}
+        </tr><tr>
+        <td><strong>Email</strong></td>
+        <td>{{form.email (size=20)}} </td>
+        </tr><tr>
+        <td><strong>Staff no.</strong></td>
+        <td>{{form.roll (size=20)}} </td>
+        </tr><tr>
+        <td><strong>Group</strong></td>
+        <td>{{form.supervisor (size=20)}} </td>
+        </tr><tr>
+        <td><strong>Location</strong></td>
+        <td>{{form.location (size=20)}}</td>
+        </tr><tr>
+        <td><strong>Primary Facility</strong></td>
+        <td>{{form.facility1}}</td>
+        </tr><tr>
+        <td><strong>Secondary Facility</strong></td>
+        <td>{{form.facility2}}</td>
+        </tr><tr>
+        <td><strong>Active</strong></td>
+        <td>{{form.active_status}}</td>
+        </tr><tr>
+        <td><strong>Restrictions</strong></td>
+        <td>{{form.restrictions}}</td>
+        </tr><tr>
+        <td><strong>Skin</strong></td>
+        <td>{{form.skin}}</td>
+        </tr><tr>
+        <td><strong>Lung</strong></td>
+        <td>{{form.lung}}</td>
+        </tr><tr>
+        <td><strong>Face-fit</strong></td>
+        <td>{{form.facefit}}</td>
+        </tr><tr>
+        <td><strong>Comment</strong></td>
+        <td>{{form.comment}}</td>
+        </tr>
+        </table>
+        <div class="btn-group btn-md">
+        <p>
+        <input type="submit" value="Save" class="btn btn-sm btn-success" name='Button'>
+        <input type="submit" value="Cancel" class="btn btn-sm btn-danger" name='Button'></p>
+        </div>
+      </form>
+     </div>
+    </div>
+    {%endif%}
+    
+    {%if mode=='Add_Test'%}
+    <div class="col-md-5 col-md-offest-1">
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+      <form action="" method="post" name="index">
+        {{form.hidden_tag()}}
+        {%set rec= selected_rec %}
+        <strong>{{rec.firstname}}&nbsp{{rec.lastname}} <br>
+        {{rec.facility1}}/{{rec.facility2}}</strong>
+        <p><table class="table" >
+        <th>Add test date and result</th>
+        <tbody>
+        <tr>
+        <td>
+        <strong>Date of test (dd-mm-YYYY):</strong></td>
+        <td>{{form.date (size=14, placeholder= 'dd/mm/YYYY')}} 
+        {%if form.errors['Date_Error']==True%}
+        <br>
+        <strong><span style="color:Red">Please enter a valid date</span></strong>
+        <br>
+        {%endif%}
+        </td>
+        </tr>
+        <tr>
+        <td>
+        <strong>Result:</strong>
+        </td>
+        <td>{{form.result}}
+        {%if form.errors['Result_Error']==True%}
+        <br>
+        <strong><span style="color:Red">Please select a valid result</span></strong>
+        <br>
+        {%endif%}
+        </td>
+        </tr>
+        </table>
+        <input type="submit" value="Submit" class="btn btn-sm btn-success" name='Button'>
+        <input type="submit" value="Cancel" class="btn btn-sm btn-danger" name='Button'></p>
+        </div>
+      </form>
+     </div>
+    </div>
+    {%endif%}
+
+
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

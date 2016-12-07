@@ -1,0 +1,34 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<div class="container">
+<div class="col-md-10 col-md-offset-0">
+    <br><p><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="680" height="75" alt="EU crest"></p>
+<br>
+<br>
+    <form  action="" method="post" name="get_clinic-date">
+        {{form.hidden_tag()}}
+        <p>
+        <br>Enter a future date for a clinic. <br>
+        <br>You will then be able to download a list of users whose clearance expires 1, 2 or 3 months relative to that date.<br><br>
+        </p>
+        <p>
+            Please enter a clinc date (dd/mm/yyyy):<br>
+            {{form.date(size=30)}}<br>
+            {%if form.errors['Date_Error']==True%}
+            <span style="color: red;">Please enter a valid date</span>
+            {% endif %}<br>
+        </p>
+        <p><input type="submit" value=" Get Users List " class="btn btn-success" name='Button'></p>
+        <p><input type="submit" value=" Back " class="btn btn-info" name='Button'></p>
+</div>
+</div>
+</form>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}

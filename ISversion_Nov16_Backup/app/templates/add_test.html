@@ -1,0 +1,92 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/cerulean/bootstrap.min.css" rel="stylesheet">-->
+<div class="container">
+<form action="" method="post" name="index">
+    {{form.hidden_tag()}}
+    <div class="col-md-10 col-md-offset-0">
+       <br><p><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="750" height="100" alt="EU crest"></p>
+    </div>
+    <br>
+    <div class="col-md-8 col-md-offset-1">
+    <!--<div class="well" style="border-left: solid LightGrey; background-color: White;">-->
+    <div class="col-md-5">
+       {{rec}}
+       <strong>{{rec.firstname}}&nbsp{{rec.lastname}} </strong><br>
+        <table class="table table-condensed">
+          <!--<thead>                -->
+          <!--<th> </th>-->
+          <!--<th> </th>-->
+          <!--</thead>-->
+          <tbody>
+       <tr>
+       <td><strong>Staff number</strong> </td>
+       <td>{{rec.roll}}</td>
+       </tr><tr>
+       <td><strong>Group</strong></td>
+       <td>{{rec.supervisor}}</td>
+       </tr><tr>
+       <td><strong>Location</strong></td>
+       <td>{{rec.location}}</td>
+       </tr><tr>
+       <td><strong>Facility</strong></td>
+        <td> {{p.facility1}}
+        {% if p.facility2!=None %}
+        / {{p.facility2}}
+        {% endif %}
+        </td>
+       </tr>
+       </table>
+       <br><p>
+       <a href={{url_for ("edit_person", idd=p) }}> <span style="color: Blue;">Edit personal details</strong> </span></a>
+       </div>
+        <div class="col-md-3">
+        <strong>Test history</strong>
+        <br>
+       </div>
+    </div>
+        
+    <div class="col-md-3 ">
+        <div class="well" style="border-left: solid LightGrey; background-color: White;">
+        {{rec}}
+        <strong>{{rec.firstname}}&nbsp{{rec.lastname}} </strong><br>
+        <br>  <p>
+        <strong>Date of test (dd/mm/yyyy)</strong>
+        <br>
+        {{form.date}}
+        <br>  <p>
+        <strong>Result</strong>
+        <br>
+        {{form.result}}
+        <br>  <p>
+        <strong>Restrictions</strong>
+        <br>
+        {{form.restrictions}}
+        <br>  <p>
+        <strong>Skin</strong>
+        <br>
+        {{form.skin}}
+        <br>  <p>
+        <strong>Lung</strong>
+        <br>
+        {{form.lung}}
+        <br>  <p>
+        <strong>Face-fit</strong>
+        <br>
+        {{form.facefit}}
+        <br>
+        </div>
+    </div>
+</form>
+  
+</div>
+{% endblock  %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}
+
