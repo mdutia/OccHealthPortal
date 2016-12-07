@@ -369,7 +369,6 @@ def dashboard():
             testhistory=[]
             for h in selected_rec.tests.split(';'):
                 testhistory.append( h )
-            #mode='Person'
             return render_template('show_one_rec.html', mode='Person', selected_rec=selected_rec, testhistory=testhistory)
 
         elif ('Confirm Delete' in request.form ['Button']):
@@ -404,15 +403,15 @@ def dashboard():
                 status='All users'
             msg.append ('Filters: Facility={0}    Status={1}    Ordered by:{2}'.format (session['facility'], status, session['list_order']))
             msg.append(' ')
-            msg.append('Name, Last test, Result, Retest due, Days left')
+            msg.append('Name, Facility1, Facility2, Last test, Result, Retest due, Days left')
             for r in recs:
                 lastdate, lastresult= r.last_test.split(',')
                 if r.days_to_expiry<0:
                     dexp='Expired'
                 else:
                     dexp=r.days_to_expiry
-                msg.append ('{0} {1}, {2}, {3}, {4}, {5}'.format 
-                            (r.firstname, r.lastname, lastdate,lastresult,r.expiry_date,dexp ))
+                msg.append ('{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}'.format 
+                            (r.firstname, r.lastname, r.facility1, r.facility2, lastdate,lastresult, r.expiry_date,dexp ))
             msgstr= '\n'.join(msg) 
             response = make_response(msgstr)
             response.headers["Content-Disposition"] = "attachment; filename=Status.csv"
@@ -454,7 +453,7 @@ def dashboard():
             offset= (ddt - s).days   #days
             dExpired, d30, d60, d90, d90plus= [],[],[],[],[]
             for r in recs:
-                ##lastdate, lastresult= r.last_test.split(',')
+                #lastdate, lastresult= r.last_test.split(',')
                 if r.days_to_expiry<0+offset:
                     dExpired.append (r)
                 elif r.days_to_expiry <=30+offset:
@@ -467,12 +466,12 @@ def dashboard():
                     d90plus.append(r)
                     
             msg.append(' ')
-            msg.append('Name, Email, Expiry date')
+            msg.append('Name, Facility1, Facility2, Email, Expiry date')
             msg.append('Expiring within 30 days from {0}'.format(ddt.strftime("%d/%m/%Y")))
             if len(d30)>0:
                 for r in d30:
-                    msg.append ('{0} {1}, {2}, {3}'.format 
-                                (r.firstname, r.lastname, r.email, r.expiry_date ))
+                    msg.append ('{0} {1}, {2}, {3}, {4}, {5}'.format 
+                                (r.firstname, r.lastname, r.facility1, r.facility2, r.email, r.expiry_date ))
             else:
                 msg.append('None')
             msg.append(' ')
@@ -480,7 +479,7 @@ def dashboard():
             #msg.append('Firstname, Lastname, Email, Expiry date')
             if len(d60)>0:
                 for r in d60:
-                    msg.append ('{0} {1}, {2}, {3}'.format 
+                    msg.append ('{0} {1}, {2}, {3}, {4}, {5}'.format 
                                 (r.firstname, r.lastname, r.email, r.expiry_date ))
             else:
                 msg.append('None')
@@ -489,7 +488,7 @@ def dashboard():
             #msg.append('Firstname, Lastname, Email, Expiry date')
             if len(d90)>0:
                 for r in d90:
-                    msg.append ('{0} {1}, {2}, {3}'.format 
+                    msg.append ('{0} {1}, {2}, {3}, {4}, {5}'.format 
                                 (r.firstname, r.lastname, r.email, r.expiry_date ))
             else:
                 msg.append('None')
@@ -499,7 +498,7 @@ def dashboard():
             #msg.append('Firstname, Lastname, Email, Expiry date')
             if len(dExpired)>0:
                 for r in dExpired:
-                    msg.append ('{0} {1}, {2}, {3}'.format 
+                    msg.append ('{0} {1}, {2}, {3}, {4}, {5}'.format 
                                 (r.firstname, r.lastname, r.email, r.expiry_date ))
             else:
                 msg.append('None')
