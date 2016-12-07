@@ -48,11 +48,6 @@ def login():
 
 @app.route('/fake_EASE_login', methods = ['GET', 'POST'])
 def fake_EASE_login():
-    #from app import User
-    ###
-    session['this_user_name']='mdutia'
-    return redirect(url_for('process_login'))
-    ###
     form= LoginForm()
     if (request.method=='GET'):
         return render_template('fake_EASE_login.html', form=form)
@@ -155,18 +150,18 @@ def dashboard():
     from datetime import datetime  
     from dateutil.relativedelta import relativedelta
     
-    ad=Admin.query.all()
-    for a in ad:
-        if a.username=='mmouse':
-            db.session.delete(a)
-            db.session.commit()
+    #ad=Admin.query.all()
+    #for a in ad:
+        #if a.username=='mmouse':
+            #db.session.delete(a)
+            #db.session.commit()
 
-    recs= get_filtered_recs()
+    #recs= get_filtered_recs()
     
     if request.method=='GET':
         if 'mode' in request.args:
             if request.args['mode']=='Person':
-                session['Selected_User_Id']= request.args['idd']#.id
+                session['Selected_User_Id']= request.args['idd']  #.id
                 selected_rec=  Userdata.query.get(request.args['idd'])
                 testhistory=[]
                 for h in selected_rec.tests.split(';'):
