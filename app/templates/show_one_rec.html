@@ -3,12 +3,12 @@
 {% import "bootstrap/fixes.html" as fixes %}
 
 {% block content %}
-<!--<link href="//maxcdn.bootstrapcdn.com/bootswatch/3.3.2/cerulean/bootstrap.min.css" rel="stylesheet">-->
 <div class="container">
     <div class="col-md-12 col-md-offset-0">
        <br><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="700" height="75" alt="EU crest">
        <hr>
     <div class="col-md-1 ">
+        <!--'Back' link-->
         <p><strong><a href={{url_for ("dashboard", filters=1) }}> <span style="color: Blue;">Back </strong> </span></a>
         <hr>
     </div>
@@ -20,9 +20,9 @@
         <table class="table table-condensed" style="background-color:LightCyan;">
         <th><strong><span style="color: DarkRed";>{{rec.firstname}}&nbsp{{rec.lastname}} </strong></span></th>
         <th>
-           <a href={{url_for ("dashboard", mode='Edit_Person', idd= rec) }}> 
+           <a href={{url_for ("add_new_user", mode='Edit_Person', idd= rec) }}> 
            <span class="glyphicon glyphicon-pencil" style="color: Blue; font-size:16px; padding-left:20px;"></strong> </span></a>
-           <a href={{url_for ("dashboard", mode='Delete_Person', idd= rec) }}> 
+           <a href={{url_for ("add_new_user", mode='Delete_Person', idd= rec) }}> 
            <span class="glyphicon glyphicon-remove" style="color: Red; font-size:16px; padding-left:20px;"></strong> </span></a>
         </th>          
         <tbody>
@@ -70,7 +70,7 @@
         <table class="table table-striped">
         <th>Test history</th><td>  </td>
         <th>
-        <a href={{url_for ("dashboard", mode='Add_Test', idd= rec) }}> 
+        <a href={{url_for ("add_new_user", mode='Add_Test', idd= rec) }}> 
         <span class="glyphicon glyphicon-plus" style="color: Blue; font-size:16px; padding-left:20px;"></strong> </span></a>
         </th>
         

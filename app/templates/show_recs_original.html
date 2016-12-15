@@ -4,29 +4,29 @@
 
 {% block content %}
 
-<!--<div class="container">-->
-       <!--<br><img src="{ { url_for('static', filename = 'OccHealthbanner.png' ) }}" width="450" height="55" alt="EU crest">-->
+<div class="container">
+    <!--<div class="col-md-12">-->
+       <!--<br><img src="{ { url_for('static', filename = 'OccHealthbanner.png' ) }}" width="700" height="75" alt="EU crest">-->
        <!--<hr>-->
-<nav class="navbar-light bg-faded" style="padding-left:60px; padding-right:60px;">
+<nav class="navbar navbar-light bg-faded">
   <a class="navbar-brand" href="#">
     <img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="450" height="55" alt="EU crest">
   </a>
   <hr>
-    <ul class="nav navbar-nav pull-right">
-    <li class="nav-item active" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
-    <!--background-color: #42f4dc;">-->
-      <a class="nav-link" href="/SetOptions" >Display Filters </a>
+    <ul class="nav navbar-nav">
+    <li class="nav-item active">
+      <a class="nav-link" href="/SetOptions">Display Filters </a>
     </li>
-    <li class="nav-item" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
+    <li class="nav-item">
       <a class="nav-link" href="/add_new_user">Add User</a>
     </li>
-    <li class="nav-item" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
+    <li class="nav-item">
       <a class="nav-link" href="/download">Download</a>
     </li>
-    <li class="nav-item" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
+    <li class="nav-item">
       <a class="nav-link" href="#">Clinic Organiser</a>
     </li>
-    <li class="nav-item dropdown" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
+    <li class="nav-item dropdown">
       <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Admins</a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="/manage_admins">Manage admins</a><br>
@@ -40,52 +40,115 @@
     <!--<button class="btn btn-outline-success" type="submit">Search</button>-->
   <!--</form>-->
 </nav>    
-</div>
-<!--</div>-->
 
-<div class="col-md-12" style="padding-left:60px; padding-right:60px;">
-<!--<div class="container" style="border-left: solid LightGrey; border-right: solid LightGrey; border-top: solid LightGrey; ">-->
-   <!--<div class="well" style="border-left: solid LightGrey; background-color: White;">-->
-   <!--<div class="col-md-12" >-->
-   <br>
-      <div class="col-md-4" >
-        <strong><span style="color: DarkRed;  font-size:18px; "> Registered Users </span></strong>
+
+    <!--<div class="col-md-2" style="width:135px; padding-left:1px; padding-right:2px;">-->
+    <!--<div class="well well-small" >-->
+        <!--<form action="" method="post" name="index">-->
+        <!--{ {form.hidden_tag()}}-->
+        <!--<p><strong><span style="color: Blue;">Display filters</strong> </span>-->
+        <!--</p>-->
+        <!--<span style="margin-left:2px; color: DarkRed;"><strong>Facility:</strong></span> <br>-->
+        <!--<span style="margin-left:10px;">{ {session['facility']}} </span>-->
+        
+        <!--<div class="btn-group pull-right">-->
+          <!--<button type="button" class="btn-xs btn-default dropdown-toggle " data-toggle="dropdown" >-->
+           <!--<small><span class="glyphicon glyphicon-chevron-down pull-right"></span></small>-->
+          <!--</button>-->
+          <!--<ul class="dropdown-menu" role="menu">-->
+           <!--<!--{ { wtf.form_field(form.sel_facility) }}-->-->
+            <!--<li><a href="SetVar?facility=All">All</a></li>-->
+            <!--<li><a href="SetVar?facility=Ash">Ash</a></li>-->
+            <!--<li><a href="SetVar?facility=AWB">AWB</a></li>-->
+            <!--<li><a href="SetVar?facility=CSQ">CSQ</a></li>-->
+            <!--<li><a href="SetVar?facility=Evans">Evans</a></li>-->
+            <!--<li><a href="SetVar?facility=HRB">HRB</a></li>-->
+            <!--<li><a href="SetVar?facility=LF1">LF1</a></li>-->
+            <!--<li><a href="SetVar?facility=LF2">LF2</a></li>-->
+            <!--<li><a href="SetVar?facility=MacRH">MacRH</a></li>-->
+            <!--<li><a href="SetVar?facility=SCRM">SCRM</a></li>-->
+            <!--<li><a href="SetVar?facility=WGH">WGH</a></li>-->
+            <!--<li><a href="SetVar?facility=1GSQ">1GSQ</a></li>-->
+            <!--<li><a href="SetVar?facility=Teviot">Teviot</a></li>-->
+            <!--<li><a href="SetVar?facility=Other">Other</a></li>-->
+            <!--<li><a href="SetVar?facility=None">None</a></li>-->
+           <!--</ul>-->
+        <!--</div>-->
+      <!--</p>-->
+      <!--</p>-->
+        <!--<span style="margin-left:2px;  color: DarkRed;"><strong>Status:</strong></span>  <br>-->
+        <!--{ %if session['status']=='Yes'%}-->
+        <!--<span style="margin-left:10px;">Active</span>-->
+        <!--{ %elif session['status']=='No'%}-->
+        <!--<span style="margin-left:10px;">Not active</span>-->
+        <!--{ %else%}-->
+        <!--<span style="margin-left:10px;">All </span>-->
+        <!--{ %endif%}-->
+        <!--<div class="btn-group pull-right">-->
+          <!--<button type="button" class="btn-xs btn-default dropdown-toggle " data-toggle="dropdown" >-->
+           <!--<small><span class="glyphicon glyphicon-chevron-down pull-right"></span></small>-->
+          <!--</button>-->
+          <!--<ul class="dropdown-menu" role="menu">-->
+            <!--<li><a href="SetVar?status=Yes">Active</a></li>-->
+            <!--<li><a href="SetVar?status=No">Not active</a></li>-->
+             <!--<li><a href="SetVar?status=All">All</a></li>-->
+          <!--</ul>-->
+        <!--</div>-->
+      <!--</p>-->
+      <!--</p>-->
+        <!--<span style="margin-left:2px;  color: DarkRed;"><strong>List order:</strong></span>  <br>-->
+        <!--<span style="margin-left:10px;">{ {session['list_order']}} </span>-->
+        <!--<div class="btn-group pull-right">-->
+          <!--<button type="button" class="btn-xs btn-default dropdown-toggle " data-toggle="dropdown" >-->
+           <!--<small><span class="glyphicon glyphicon-chevron-down pull-right"></span></small>-->
+          <!--</button>-->
+          <!--<ul class="dropdown-menu" role="menu">-->
+            <!--<li><a href="SetVar?list=Last name">Last name</a></li>-->
+            <!--<li><a href="SetVar?list=Re-test ">Re-test date</a></li>-->
+           <!--</ul>-->
+        <!--</div>-->
+      <!--</p>-->
+    <!--</div>-->
+    <!--<hr>-->
+    <!--<strong>-->
+        <!--<input type="submit" value=" Add New User " class="btn  btn-default padding-right:40px;" name="Button">-->
+        <!--<hr>-->
+        <!--<input type="submit" value=" Download  " class="btn btn-default" name="Button">-->
+        <!--<hr>-->
+        <!--<input type="submit" value=" Clinic Organiser  " class="btn btn-default" name="Button">-->
+        <!--<hr>-->
+        <!--<input type="submit" value=" Manage Admins  " class="btn btn-default" name="Button">-->
+    <!--</strong>-->
+    <!--</form>-->
+    </div>
+
+    <!--<div class="col-md-12" style="padding-left:1px; padding-right:0px;">-->
+    <div class="col-xs-12" >
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+        <h4> <strong><span style="color: DarkRed;"> Registered Users </span></strong>
         <p><span style='color:Blue; font-size:11px;'>Active /</span>
-        <span style='color:Brown; font-size:11px;'>Not active </span></p>
-      </div>
-      <div class='col-md-3'>   <!--style="padding-left:200px; padding-right:0px;">-->
-        <strong><span style="color: Blue;  font-size:16px; background-color: LightGrey;">Display settings: <br></span>
-        <span style="color: Blue;  font-size:12px;">Facility= {{session['facility']}} 
-      </div>
-      <div class='col-md-2'>   <!--style="padding-left:200px; padding-right:0px;">-->
-        <br><span  style="background-color: LightGrey;">Users= {{session['status']}} 
-      </div>          
-      <div class='col-md-3'>   <!--style="padding-left:200px; padding-right:0px;">-->
-        <br>List order= {{session['list_order']}} </span>
-      </div>
-      <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-    
-   <!--<div class="col-md-12" >-->
-         {%if recs.has_prev==True%}
+        <span style='color:Brown; font-size:11px;'>Not active </span>
+
+        <div class='col-md-2' style="padding-left:1px; padding-right:0px;">
+        {%if recs.has_prev==True%}
             <a href={{url_for ("dashboard", mode='prev_page', idd= rec) }}><span style="color: Blue;font-size:14px;"> &lt Prev page </span></strong></a>
         {%endif%}
-        <!--</div>-->
+        </div>
         
         <div class="pull-right" >
         {%if recs.has_next==True%}
             <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}><span style="color: Blue;font-size:14px;padding-left:25px;"> &gt Next page  </span></strong></a>   
         {%endif%}
-        </div>
-    <!--<hr>-->
+
+        <!--</div>-->
+    </h4>
+    <hr>
             <!--{ %if idx|length<=0 %}-->
             {%set records= recs.items%}
             {%if records|length<=0 %}
                 <br>No users found
             {%else%}
-              <table class="table table-striped table-condensed" >
-              <!--style="border-left: solid LightGrey; border-right: solid DarkGrey; border-top: solid LightGrey; "> -->
+              <table class="table table-striped table-condensed">
                 <thead>                
                 <th>Name</th>
                 <th>Group</th>

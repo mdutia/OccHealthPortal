@@ -1,13 +1,19 @@
 from flask.ext.wtf import Form
+from wtforms import  widgets, SelectMultipleField
 from wtforms import TextField, BooleanField, PasswordField, RadioField, TextAreaField, SelectField, IntegerField
 from wtforms.validators import Required, NumberRange, Length
-from wtforms.fields.html5 import DateField
+#from wtforms.fields.html5 import DateField
+
+from config import FacilitiesList, StatusList
 
 class LoginForm(Form):
     uname= TextField('username', validators = [Required()])
    #pwd = PasswordField('pwd', validators = [Required()])
     #remember_me = BooleanField('remember_me', default = False)
-    
+
+class MultiCheckboxField(SelectMultipleField):
+    widget = widgets.ListWidget(html_tag='ul',prefix_label=False)
+    option_widget = widgets.CheckboxInput()
     
 class NewUserForm (Form):
     title= SelectField(choices=[('Ms', 'Ms'), ('Mr', 'Mr'), ('Dr', 'Dr'), ('Prof', 'Prof') ])
@@ -60,11 +66,20 @@ class NewAdminForm (Form):
     
 class FiltersForm (Form):
     #lf1,lf2.hrb,csq,scrm,n/a, ash, awb, macrh, wgh, evans
-    sel_facility= SelectField(choices=[('All', 'All'),('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
-                                   ('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ], default='All')  
+    #sel_facility= SelectField(choices=[('All', 'All'),('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
+                                   #('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ], default='All')  
 
-    sel_status= SelectField(choices=[('All','All'),('Yes', 'Active'), ('No', 'Not Active') ])
-    list_order= SelectField(choices=[('Last name','Last name'),('Retest date', 'Retest date') ])
+    #sel_status= SelectField(choices=[('All','All users'),('Yes', 'All Active users'), ('No', 'All inactive users'),
+                                     #('Active_students','Active students only'),('Active_staff', 'Active staff only'), ('Inactive_students', 'Inactive students only'),
+                                     #('Inactive_staff', 'Inactive staff only'),
+                                     #('Exp_all','All expired users'),('Exp_students','Expired students only'), ('Exp_staff', 'Expired staff only')])
+    sel_status= SelectField(choices= StatusList)
+    list_order= SelectField(choices=[('Last name', 'List in order of Last name'),( 'Retest date', 'List in order of Expiry Date') ])
+    #sel_facility= MultiCheckboxField('Facility', choices=[('All', 'All'), ('1GSQ','1GSQ'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('CSQ', 'CSQ'), ('Evans', 'Evans'), ('HRB', 'HRB'),
+                                   #('LF1', 'LF1'), ('LF2', 'LF2'), ('MacRH', 'MacRH'), ('SCRM', 'SCRM'), ('Teviot', 'Teviot'),('WGH', 'WGH'), 
+                                   #('None', 'None'), ('Other', 'Other')  ])
+    sel_facility= MultiCheckboxField('Facility', choices= FacilitiesList)
+    
     #sel_facility= RadioField('Facility', choices= [
         #('1','All  '),
         #('2','LF1  '),

@@ -4,6 +4,13 @@ SQLALCHEMY_DATABASE_URI = 'sqlite:///userdata.db'
 SQLALCHEMY_BINDS = {
     'projects':      'sqlite:///admins.db'
 }
+FacilitiesList =[('All', 'All'), ('1GSQ','1GSQ'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('CSQ', 'CSQ'), ('Evans', 'Evans'), ('HRB', 'HRB'),
+                                   ('LF1', 'LF1'), ('LF2', 'LF2'), ('MacRH', 'MacRH'), ('SCRM', 'SCRM'), ('Teviot', 'Teviot'),('WGH', 'WGH'), 
+                                   ('None', 'None'), ('Other', 'Other')  ]
+StatusList= [('All','All users'),('Yes', 'All Active users'), ('No', 'All inactive users'),
+                                     ('Active_students','Active students only'),('Active_staff', 'Active staff only'), ('Inactive_students', 'Inactive students only'),
+                                     ('Inactive_staff', 'Inactive staff only'),
+                                     ('Exp_all','All expired users'),('Exp_students','Expired students only'), ('Exp_staff', 'Expired staff only')]
 #MAIL_SERVER='smtp.staffmail.ed.ac.uk'
 #MAIL_USERNAME= "mdutia@staffmail.ed.ac.uk"
 

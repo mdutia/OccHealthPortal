@@ -1,0 +1,57 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% import "bootstrap/fixes.html" as fixes %}
+
+{% block content %}
+<div class="container">
+    <div class="col-md-12 col-md-offset-0">
+       <br><img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="700" height="75" alt="EU crest">
+       <hr>
+    <div class="col-md-1 ">
+        <!--'Back' link-->
+        <p><strong><a href={{url_for ("dashboard", filters=1) }}> <span style="color: Blue;">Back </strong> </span></a>
+    </div>
+    <!--</div>-->
+    <div class="col-md-9 col-md-offset-0">
+      <div class="well" style="border-left: solid LightGrey; background-color: White;">
+      <form action="" method="post" name="index">
+      {{form.hidden_tag()}}
+      <div class="row">
+      <h4>Display options</h4>
+      <br>
+      <div class="row">
+       <div class="col-sm-3 col-sm-offset-1"> 
+       <p><strong><span style="color: Blue;">Select by Facility<br> </span></strong></p>
+        {{ form.sel_facility }}
+       </div>
+       <div class="col-sm-3">
+       <p><strong><span style="color: Blue;">Select by User Status<br> </span></strong></p>
+        {{ form.sel_status }}
+       </div>
+       <div class="col-sm-3"> 
+       <p><strong><span style="color: Blue;">List order<br> </span></strong></p>
+        {{ form.list_order }}
+       </div>
+      </div>
+
+      <div class="row">      
+      <div class="col-md-4 col-md-offset-1">
+       <p>
+       <input type="submit" value="Submit" class="btn btn-success pull-right" name='Button' >
+       </p>
+       </div>
+
+      <div class="col-md-3 col-md-offset-1">
+       <p>
+       <input type="submit" value="Cancel" class="btn btn-danger  pull-right" name='Button' ></p>
+      </div>
+    </form>
+    </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block head %}
+{{super()}}
+{{fixes.ie8()}}
+{% endblock %}
