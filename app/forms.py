@@ -11,6 +11,13 @@ class LoginForm(Form):
    #pwd = PasswordField('pwd', validators = [Required()])
     #remember_me = BooleanField('remember_me', default = False)
 
+#class ChoiceObj(object):
+    #def __init__(self, name, choices):
+        ## this is needed so that BaseForm.process will accept the object for the named form,
+        ## and eventually it will end up in SelectMultipleField.process_data and get assigned
+        ## to .data
+        #setattr(self, name, choices)
+
 class MultiCheckboxField(SelectMultipleField):
     widget = widgets.ListWidget(html_tag='ul',prefix_label=False)
     option_widget = widgets.CheckboxInput()

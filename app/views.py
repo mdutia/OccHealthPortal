@@ -3,7 +3,7 @@ from flask.ext.login import login_user , logout_user , current_user , login_requ
 from wtforms import widgets, SelectMultipleField
 
 from app import app
-from forms import NewUserForm, AddTestsForm, NewAdminForm, EditUserForm, LoginForm, FiltersForm, GetClinicDateForm
+from forms import NewUserForm, AddTestsForm, NewAdminForm, EditUserForm, LoginForm, FiltersForm, GetClinicDateForm #, ChoiceObj
 from sqlalchemy import or_, and_
 
 #from flask_mail import Message
@@ -15,20 +15,37 @@ from config import HOST, ADMINS
 
 def get_filtered_recs (paginate=True):
     from app import db, Admin, Userdata
+    #OptionsString=''
     #recs = Userdata.query.order_by(Userdata.lastname)
     if session['list_order']=='Last name':
         listby=Userdata.lastname
+        OrderString= 'Ordered by last name'
     else:
         listby=Userdata.days_to_expiry
+        OrderString= 'Ordered by expiry date'
     
-    if session['facility']=='All':
-        recs= Userdata.query.order_by(listby)
+    #check if 'All' has been selected, even with other selections
+    for f in session['facility']:
+        if f=='All':
+            recs= Userdata.query.order_by(listby)
+            FacilityString= 'All facilities'
+            break
     else:
-        recs = Userdata.query.filter( or_(Userdata.facility1==session['facility'],
-                                      Userdata.facility2==session['facility']) ).order_by(listby)
-
+        #for all the selected facilities, find recs that contain that string 
+        FacilityString= ''
+        terms=[]
+        for f in session['facility']:
+            FacilityString= ','.join ( [FacilityString, f] )
+            terms.append (f)
+            #recs= Userdata.query.filter( or_(Userdata.facility1 ==f, Userdata.facility2 ==f) ).order_by(listby)
+        FacilityString= FacilityString[1:] #dump leading ','
+        recs= Userdata.query.filter( or_(Userdata.facility1.in_ (terms), Userdata.facility2.in_ (terms)) ).order_by(listby)
+                
     if session['status']!='All':
         recs= recs.filter (Userdata.active_status==session['status']).order_by(listby)
+    StatusString= session['status'] + ' users'
+        
+    session ['OptionsString']= ' '.join ( [ StatusString, ' | ', FacilityString, ' | ', OrderString ] )
     if paginate:
         return recs.paginate (session['current_pg'], 20) # return Pagination object
     else:
@@ -71,7 +88,7 @@ def process_login():
         return redirect(url_for('unknown_admin'))
     login_user(ad)    
     session['Selected_User_Id']= 0
-    session['facility']='All'
+    session['facility']= ['All']  #important - needs to be a list, to use with a multi-checkbox selection
     session['status']='All'
     session['list_order']='Last name'
     session['current_pg']= 1
@@ -122,12 +139,15 @@ def finished():
 @login_required
 def SetOptions():
     if request.method=='GET':
+        #selectedChoices = ChoiceObj('FiltersForm', session['facility'] )
+        #form = FiltersForm (obj=selectedChoices)
         form=FiltersForm()
         return render_template('set_options.html', form=form)
     
     else: #'PUT'
         form=FiltersForm()
-        session['facility']= form.sel_facility.data
+        session['facility']= form.sel_facility.data if form.sel_facility.data else ['All']
+        
         session['status']= form.sel_status.data
         session['list_order']= form.list_order.data
 

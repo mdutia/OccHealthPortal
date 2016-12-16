@@ -15,7 +15,7 @@
     <ul class="nav navbar-nav pull-right">
     <li class="nav-item active" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
     <!--background-color: #42f4dc;">-->
-      <a class="nav-link" href="/SetOptions" >Display Filters </a>
+      <a class="nav-link" href="/SetOptions" > Filter options </a>
     </li>
     <li class="nav-item" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
       <a class="nav-link" href="/add_new_user">Add User</a>
@@ -48,37 +48,33 @@
    <!--<div class="well" style="border-left: solid LightGrey; background-color: White;">-->
    <!--<div class="col-md-12" >-->
    <br>
-      <div class="col-md-4" >
+      <div class="col-md-2" >
         <strong><span style="color: DarkRed;  font-size:18px; "> Registered Users </span></strong>
         <p><span style='color:Blue; font-size:11px;'>Active /</span>
         <span style='color:Brown; font-size:11px;'>Not active </span></p>
       </div>
-      <div class='col-md-3'>   <!--style="padding-left:200px; padding-right:0px;">-->
-        <strong><span style="color: Blue;  font-size:16px; background-color: LightGrey;">Display settings: <br></span>
-        <span style="color: Blue;  font-size:12px;">Facility= {{session['facility']}} 
+      <div class="col-md-4" >
+      <div class="well well-sm">
+        <strong><span style="color: DarkRed;  font-size:18px; padding-right:10px;"> Filters: </span></strong>
+        <strong><span style="color: Black;  font-size:14px; "> {{session['OptionsString']}} </span></strong>      
       </div>
-      <div class='col-md-2'>   <!--style="padding-left:200px; padding-right:0px;">-->
-        <br><span  style="background-color: LightGrey;">Users= {{session['status']}} 
-      </div>          
-      <div class='col-md-3'>   <!--style="padding-left:200px; padding-right:0px;">-->
-        <br>List order= {{session['list_order']}} </span>
+      </div>
+  <!--</div>-->
+  <!--</div>-->
+      <div class="col-sm-6" >
+      {%if recs.has_next==True%}
+      <div class="well well-sm pull-right" style= "height=30px; ">
+            <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}>Next page</a>
+      </div>  
+      {%endif%}
+      {%if recs.has_prev==True%}
+      <div class="well well-sm pull-right" style= "height=30px; ">
+          <a href={{url_for ("dashboard", mode='prev_page', idd= rec) }}>Previous page</a>
+      </div>
+      {%endif%}
       </div>
       <!--</div>-->
-  <!--</div>-->
-  <!--</div>-->
-    
-   <!--<div class="col-md-12" >-->
-         {%if recs.has_prev==True%}
-            <a href={{url_for ("dashboard", mode='prev_page', idd= rec) }}><span style="color: Blue;font-size:14px;"> &lt Prev page </span></strong></a>
-        {%endif%}
-        <!--</div>-->
-        
-        <div class="pull-right" >
-        {%if recs.has_next==True%}
-            <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}><span style="color: Blue;font-size:14px;padding-left:25px;"> &gt Next page  </span></strong></a>   
-        {%endif%}
-        </div>
-    <!--<hr>-->
+
             <!--{ %if idx|length<=0 %}-->
             {%set records= recs.items%}
             {%if records|length<=0 %}
