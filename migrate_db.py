@@ -1,5 +1,5 @@
 
-DUMMY_RUN=False
+DUMMY_RUN= False
 
 from app import db, Admin, Userdata, Test
 
@@ -40,10 +40,15 @@ for line in classlist[2:]:  # start with the third line, i.e ignore the id (1) o
                 u.__setattr__(k, d[k])
                 #print d[k],
         #u should now have all the field values copied over from the dumped record
-        #Add any new records to u here:
-        if u.facility2=='':
-            u.facility2='None'
-        print u.firstname, u.lastname, u.facility1, u.facility2
+        #Fill in any new fields in u here (eg if added a new field):
+        if u.active_status=='Yes':
+            u.active_status='Active'
+        else:
+            u.active_status='Inactive'
+        
+        u.position= 'Staff' #make everyone Staff to begin with
+        
+        print u.firstname, u.lastname, u.active_status
         db.session.add (u)
 
 if not DUMMY_RUN:

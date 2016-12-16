@@ -4,7 +4,7 @@ from wtforms import TextField, BooleanField, PasswordField, RadioField, TextArea
 from wtforms.validators import Required, NumberRange, Length
 #from wtforms.fields.html5 import DateField
 
-from config import FacilitiesList, StatusList
+from config import FacilitiesListChoices, StatusListChoices
 
 class LoginForm(Form):
     uname= TextField('username', validators = [Required()])
@@ -27,13 +27,17 @@ class NewUserForm (Form):
     firstname= TextField(label='First name', validators= [Length(min=3, max=255, message='First name (max 40 chars)')])
     lastname= TextField(label='Last name', validators= [Length(min=3, max=255, message='Last name (max 40 chars)')])
     roll= IntegerField(label='StaffNo', validators = [Required()] ) #, validators= [Length(min=3, max=55, message='Staff number')])
+    position= SelectField(choices=[('Staff', 'Staff'), ('Student', 'Student')], default='Staff')
     group= TextField(label='Group', validators= [Length(min=1, max=255, message='Group')])
     location= TextField(label='Location', validators= [Length(min=1, max=255, message='Location')])
-    facility1= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
-                                   ('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot') ])    
-    facility2= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
-                                    ('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ])   
-    activity_status= SelectField(choices=[('Yes', 'Yes'), ('No', 'No'), ('-', '-') ])
+    facility1= SelectField (choices= FacilitiesListChoices)
+    facility2= SelectField (choices= FacilitiesListChoices)
+    #facility1= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
+                                   #('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot') ])    
+    #facility2= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
+                                    #('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ])   
+    #activity_status= SelectField(choices=[('Yes', 'Yes'), ('No', 'No'), ('-', '-') ])
+    active_status= SelectField(choices= [('Active', 'Active'), ('Inactive', 'Inactive')]) #, ('-', '-') ])
     restrictions= SelectField(choices=[('No', 'No'), ('Yes', 'Yes')], default='No')
     skin= SelectField(choices=[('No', 'No'), ('Yes', 'Yes')], default='No')
     lung= SelectField(choices=[('No', 'No'), ('Yes', 'Yes')], default='No')
@@ -46,13 +50,16 @@ class EditUserForm (Form):
     lastname= TextField(label='Last name', validators= [Length(min=3, max=255, message='Last name (max 40 chars)')])
     email= TextField(label='Email', validators= [Length(min=3, max=255, message='Email(max 40 chars)')])
     roll= IntegerField(label='StaffNo', validators = [Required()] ) #, validators= [Length(min=3, max=55, message='Staff number')])
+    position= SelectField(choices=[('Staff', 'Staff'), ('Student', 'Student')], default='Staff')
     supervisor= TextField(label='Group', validators= [Length(min=1, max=255, message='Group')])
     location= TextField(label='Location', validators= [Length(min=1, max=255, message='Location')])
-    facility1= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
-                                   ('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ])   
-    facility2= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
-                                    ('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ])   
-    active_status= SelectField(choices=[('Yes', 'Yes'), ('No', 'No'), ('-', '-') ])
+    facility1= SelectField (choices= FacilitiesListChoices)
+    facility2= SelectField (choices= FacilitiesListChoices)
+    #facility1= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
+                                   #('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ])   
+    #facility2= SelectField(choices=[('None', 'None'), ('Other', 'Other'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('MacRH', 'MacRH'), ('WGH', 'WGH'), ('Evans', 'Evans'),
+                                    #('LF1', 'LF1'), ('LF2', 'LF2'), ('HRB', 'HRB'), ('CSQ', 'CSQ'), ('SCRM', 'SCRM'), ('1GSQ','1GSQ'), ('Teviot', 'Teviot')  ])   
+    active_status= SelectField(choices= [('Active', 'Active'), ('Inactive', 'Inactive')]) #, ('-', '-') ])
     restrictions= SelectField(choices=[('Yes', 'Yes'), ('No', 'No'), ('-', '-') ], default='No')
     skin= SelectField(choices=[('Yes', 'Yes'), ('No', 'No'), ('-', '-') ], default='No')
     lung= SelectField(choices=[('Yes', 'Yes'), ('No', 'No'), ('-', '-') ], default='No')
@@ -80,12 +87,14 @@ class FiltersForm (Form):
                                      #('Active_students','Active students only'),('Active_staff', 'Active staff only'), ('Inactive_students', 'Inactive students only'),
                                      #('Inactive_staff', 'Inactive staff only'),
                                      #('Exp_all','All expired users'),('Exp_students','Expired students only'), ('Exp_staff', 'Expired staff only')])
-    sel_status= SelectField(choices= StatusList)
+    
+    sel_status= SelectField(choices= StatusListChoices)  #[ (c, c) for c in StatusList] )
+                            
     list_order= SelectField(choices=[('Last name', 'List in order of Last name'),( 'Retest date', 'List in order of Expiry Date') ])
     #sel_facility= MultiCheckboxField('Facility', choices=[('All', 'All'), ('1GSQ','1GSQ'), ('Ash', 'Ash'), ('AWB', 'AWB'), ('CSQ', 'CSQ'), ('Evans', 'Evans'), ('HRB', 'HRB'),
                                    #('LF1', 'LF1'), ('LF2', 'LF2'), ('MacRH', 'MacRH'), ('SCRM', 'SCRM'), ('Teviot', 'Teviot'),('WGH', 'WGH'), 
                                    #('None', 'None'), ('Other', 'Other')  ])
-    sel_facility= MultiCheckboxField('Facility', choices= FacilitiesList)
+    sel_facility= MultiCheckboxField('Facility', choices= FacilitiesListChoices)
     
     #sel_facility= RadioField('Facility', choices= [
         #('1','All  '),

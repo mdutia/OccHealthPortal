@@ -31,7 +31,7 @@ def get_filtered_recs (paginate=True):
             FacilityString= 'All facilities'
             break
     else:
-        #for all the selected facilities, find recs that contain that string 
+        #for each of the selected facilities, find recs that contain that string 
         FacilityString= ''
         terms=[]
         for f in session['facility']:
@@ -41,10 +41,32 @@ def get_filtered_recs (paginate=True):
         FacilityString= FacilityString[1:] #dump leading ','
         recs= Userdata.query.filter( or_(Userdata.facility1.in_ (terms), Userdata.facility2.in_ (terms)) ).order_by(listby)
                 
-    if session['status']!='All':
-        recs= recs.filter (Userdata.active_status==session['status']).order_by(listby)
-    StatusString= session['status'] + ' users'
-        
+    StatusString= session['status']
+    if session['status']=='All users':
+        recs= recs.order_by(listby)
+        #StatusString= session['status']
+    elif session['status']=='All staff':
+        recs= recs.filter (Userdata.position=='Staff').order_by(listby)
+        #StatusString= session['status']
+    elif session['status']=='All students':
+        recs= recs.filter (Userdata.position=='Student').order_by(listby)
+        #StatusString= session['status']
+    elif ('Active' in session['status']):
+        if ('staff' in session['status']) :
+            recs= recs.filter( and_(Userdata.active_status=='Active', Userdata.position=='Staff') ).order_by(listby)
+        elif ('students'in session['status']) :
+            recs= recs.filter( and_(Userdata.active_status=='Active', Userdata.position=='Student') ).order_by(listby)
+        else:
+            recs= recs.filter( Userdata.active_status=='Active' ).order_by(listby)
+    elif ('Inactive' in session['status']):
+        if ('staff' in session['status']) :
+            recs= recs.filter( and_(Userdata.active_status=='Inactive', Userdata.position=='Staff') ).order_by(listby)
+        elif ('students'in session['status']) :
+            recs= recs.filter( and_(Userdata.active_status=='Inactive', Userdata.position=='Student') ).order_by(listby)
+        else:
+            recs= recs.filter( Userdata.active_status=='Inactive' ).order_by(listby)
+         #StatusString= session['status']
+         
     session ['OptionsString']= ' '.join ( [ StatusString, ' | ', FacilityString, ' | ', OrderString ] )
     if paginate:
         return recs.paginate (session['current_pg'], 20) # return Pagination object
@@ -89,7 +111,7 @@ def process_login():
     login_user(ad)    
     session['Selected_User_Id']= 0
     session['facility']= ['All']  #important - needs to be a list, to use with a multi-checkbox selection
-    session['status']='All'
+    session['status']='All users'
     session['list_order']='Last name'
     session['current_pg']= 1
     selected_rec=0

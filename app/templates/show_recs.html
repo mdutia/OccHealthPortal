@@ -9,7 +9,7 @@
        <!--<hr>-->
 <nav class="navbar-light bg-faded" style="padding-left:60px; padding-right:60px;">
   <a class="navbar-brand" href="#">
-    <img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="450" height="55" alt="EU crest">
+    <img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="490" height="55" alt="EU crest">
   </a>
   <hr>
     <ul class="nav navbar-nav pull-right">
@@ -53,7 +53,7 @@
         <p><span style='color:Blue; font-size:11px;'>Active /</span>
         <span style='color:Brown; font-size:11px;'>Not active </span></p>
       </div>
-      <div class="col-md-4" >
+      <div class="col-md-6" >
       <div class="well well-sm">
         <strong><span style="color: DarkRed;  font-size:18px; padding-right:10px;"> Filters: </span></strong>
         <strong><span style="color: Black;  font-size:14px; "> {{session['OptionsString']}} </span></strong>      
@@ -61,7 +61,7 @@
       </div>
   <!--</div>-->
   <!--</div>-->
-      <div class="col-sm-6" >
+      <div class="col-sm-4" >
       {%if recs.has_next==True%}
       <div class="well well-sm pull-right" style= "height=30px; ">
             <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}>Next page</a>
@@ -84,6 +84,7 @@
               <!--style="border-left: solid LightGrey; border-right: solid DarkGrey; border-top: solid LightGrey; "> -->
                 <thead>                
                 <th>Name</th>
+                <th>Position</th>
                 <th>Group</th>
                 <th>Facility</th>
                 <th>Last test</th>
@@ -100,7 +101,7 @@
                 <!--{ %else%}-->
                 <!--{ %endif%}-->
                 <tr>
-                {%if p.active_status=='Yes'%}
+                {%if 'Active' in p.active_status%}
                 <!--<td><a href={ {url_for ("dashboard", mode='Person', idd=p.id) }}> <span style="color: Blue;">-->
                 <td><a href={{url_for ("add_new_user", mode='Person', idd=p.id) }}> <span style="color: Blue;">
                 {{p.firstname}}&nbsp{{p.lastname}} </span></a> </td>
@@ -109,6 +110,7 @@
                 <td><a href={{url_for ("add_new_user", mode='Person', idd=p.id) }}> <span style="color: Brown;">
                 {{p.firstname}}&nbsp{{p.lastname}} </span></a> </td>
                 {%endif%}
+                <td> {{p.position}}</td>
                 <td> {{p.supervisor}}</td>
                 <td> {{p.facility1}}
                 {% if p.facility2 !='None' %}
