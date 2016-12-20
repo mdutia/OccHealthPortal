@@ -9,10 +9,10 @@
        <!--<hr>-->
 <nav class="navbar-light bg-faded" style="padding-left:60px; padding-right:60px;">
   <a class="navbar-brand" href="#">
-    <img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="490" height="55" alt="EU crest">
+    <img src="{{ url_for('static', filename = 'OccHealthbanner.png' ) }}" width="550" height="60" alt="EU crest">
   </a>
   <hr>
-    <ul class="nav navbar-nav pull-right">
+   <ul class="nav navbar-nav pull-right">
     <li class="nav-item active" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
     <!--background-color: #42f4dc;">-->
       <a class="nav-link" href="/SetOptions" > Filter options </a>
@@ -24,10 +24,10 @@
       <a class="nav-link" href="/download">Download</a>
     </li>
     <li class="nav-item" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
-      <a class="nav-link" href="#">Clinic Organiser</a>
+      <a class="nav-link" href="/clinic_manager">Clinic Organiser</a>
     </li>
     <li class="nav-item dropdown" style="border-left: solid LightGrey; border-bottom: solid DarkGrey;">
-      <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown"> Admins</a>
+      <a class="nav-link dropdown-toggle" href="/manage_admins" data-toggle="dropdown"> Admins</a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="/manage_admins">Manage admins</a><br>
         <!--<a class="dropdown-item" href="#">Another action</a><br>-->
@@ -40,7 +40,7 @@
     <!--<button class="btn btn-outline-success" type="submit">Search</button>-->
   <!--</form>-->
 </nav>    
-</div>
+<!--</div>-->
 <!--</div>-->
 
 <div class="col-md-12" style="padding-left:60px; padding-right:60px;">
@@ -54,24 +54,24 @@
         <span style='color:Brown; font-size:11px;'>Not active </span></p>
       </div>
       <div class="col-md-6" >
-      <div class="well well-sm">
-        <strong><span style="color: DarkRed;  font-size:18px; padding-right:10px;"> Filters: </span></strong>
-        <strong><span style="color: Black;  font-size:14px; "> {{session['OptionsString']}} </span></strong>      
-      </div>
+        <div class="well well-sm">
+          <strong><span style="color: DarkRed;  font-size:18px; padding-right:10px;"> Filters: </span></strong>
+          <strong><span style="color: Black;  font-size:14px; "> {{session['OptionsString']}} </span></strong>      
+        </div>
       </div>
   <!--</div>-->
   <!--</div>-->
       <div class="col-sm-4" >
-      {%if recs.has_next==True%}
-      <div class="well well-sm pull-right" style= "height=30px; ">
-            <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}>Next page</a>
-      </div>  
-      {%endif%}
-      {%if recs.has_prev==True%}
-      <div class="well well-sm pull-right" style= "height=30px; ">
-          <a href={{url_for ("dashboard", mode='prev_page', idd= rec) }}>Previous page</a>
-      </div>
-      {%endif%}
+        {%if recs.has_next==True%}
+        <div class="well well-sm pull-right" style= "height=30px; ">
+              <a href={{url_for ("dashboard", mode='next_page', idd= rec) }}>Next page</a>
+        </div>  
+        {%endif%}
+        {%if recs.has_prev==True%}
+        <div class="well well-sm pull-right" style= "height=30px; ">
+            <a href={{url_for ("dashboard", mode='prev_page', idd= rec) }}>Previous page</a>
+        </div>
+        {%endif%}
       </div>
       <!--</div>-->
 
@@ -88,7 +88,6 @@
                 <th>Group</th>
                 <th>Facility</th>
                 <th>Last test</th>
-                <!--<th>Result</th>-->
                 <th>Retest</th>
                 <th>  </th>
                 <th>R/S/L/FF</th>
@@ -102,11 +101,9 @@
                 <!--{ %endif%}-->
                 <tr>
                 {%if 'Active' in p.active_status%}
-                <!--<td><a href={ {url_for ("dashboard", mode='Person', idd=p.id) }}> <span style="color: Blue;">-->
                 <td><a href={{url_for ("add_new_user", mode='Person', idd=p.id) }}> <span style="color: Blue;">
                 {{p.firstname}}&nbsp{{p.lastname}} </span></a> </td>
                 {%else%}
-                <!--<td><a href={ {url_for ("dashboard", mode='Person', idd=p.id) }}> <span style="color: Brown;">-->
                 <td><a href={{url_for ("add_new_user", mode='Person', idd=p.id) }}> <span style="color: Brown;">
                 {{p.firstname}}&nbsp{{p.lastname}} </span></a> </td>
                 {%endif%}
@@ -117,12 +114,13 @@
                 / {{p.facility2}}
                 {% endif %}
                 </td>
-                {% set d1= p.last_test.split(',')[0]|replace("/20", "/") %}
-                {%set d2= p.expiry_date|replace("/20", "/") %}
-                <td> {{d1}}  </td>
-                <td> {{d2}}  </td>
-                <!--<td> { {p.last_test.split(',')[0]}}</td>-->
-                <!--<td> { {p.expiry_date}}</td>-->
+                <!--{ % set d1= p.last_test.split(',')[0]|replace("/20", "/") %}-->
+                <!--{ %set d2= p.expiry_date|replace("/20", "/") %}-->
+                <!--<td> { {d1}}  </td>-->
+                <!--<td> { {d2}}  </td>-->
+                <td> {{ p.last_test.split(',')[0]|replace("/20", "/") }}  </td>
+                <td> {{ p.expiry_date|replace("/20", "/") }}  </td>
+                
                 {%if p.days_to_expiry ==0 %}
                     <td>-</td>
                 {%elif p.days_to_expiry <0 %}
