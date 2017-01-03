@@ -65,7 +65,13 @@ def get_filtered_recs (paginate=True):
             recs= recs.filter( and_(Userdata.active_status=='Inactive', Userdata.position=='Student') ).order_by(listby)
         else:
             recs= recs.filter( Userdata.active_status=='Inactive' ).order_by(listby)
-         #StatusString= session['status']
+    elif ('Expired' in session['status']):
+        if ('staff' in session['status']) :
+            recs= recs.filter( and_(Userdata.days_to_expiry<=0, Userdata.position=='Staff') ).order_by(listby)
+        elif ('students'in session['status']) :
+            recs= recs.filter( and_(Userdata.days_to_expiry<=0, Userdata.position=='Student') ).order_by(listby)
+        else:
+            recs= recs.filter( Userdata.days_to_expiry<=0 ).order_by(listby)
          
     session ['OptionsString']= ' '.join ( [ StatusString, ' | ', FacilityString, ' | ', OrderString ] )
     if paginate:
@@ -320,6 +326,7 @@ def clinic_manager():
         msg.append(' ')
         msg.append('Users who will be expired by {0}'.format(ddt.strftime("%d/%m/%Y")))
         if len(dExpired)>0:
+            msg.append('Name, Email, Facility1, Facility2, Last test, Result, Retest due, Expiry')        
             for r in dExpired:
                 lastdate, lastresult= r.last_test.split(',')
                 msg.append ('{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}'.format 
@@ -328,10 +335,10 @@ def clinic_manager():
             msg.append('None')
                 
         msg.append(' ')
-        msg.append('Name, Email, Facility1, Facility2, Last test, Result, Retest due, Expiry')
         msg.append('Expiring within 30 days from {0}'.format(ddt.strftime("%d/%m/%Y")))
         if len(d30)>0:
             for r in d30:
+                msg.append('Name, Email, Facility1, Facility2, Last test, Result, Retest due, Expiry')
                 lastdate, lastresult= r.last_test.split(',')
                 msg.append ('{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}'.format 
                             (r.firstname, r.lastname, r.email, r.facility1, r.facility2, lastdate,lastresult, r.expiry_date, '<1m' ))
@@ -340,6 +347,7 @@ def clinic_manager():
         msg.append(' ')
         msg.append('Expiring within 60 days from {0}'.format(ddt.strftime("%d/%m/%Y")))
         if len(d60)>0:
+            msg.append('Name, Email, Facility1, Facility2, Last test, Result, Retest due, Expiry')
             for r in d60:
                 lastdate, lastresult= r.last_test.split(',')
                 msg.append ('{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}'.format 
@@ -349,6 +357,7 @@ def clinic_manager():
         msg.append(' ')
         msg.append('Expiring within 90 days from {0}'.format(ddt.strftime("%d/%m/%Y")))
         if len(d90)>0:
+            msg.append('Name, Email, Facility1, Facility2, Last test, Result, Retest due, Expiry')
             for r in d90:
                 lastdate, lastresult= r.last_test.split(',')
                 msg.append ('{0} {1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}'.format 

@@ -1,6 +1,6 @@
 from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
-from sqlalchemy.types import PickleType
+#from sqlalchemy.types import PickleType
 from flask.ext.login import LoginManager
 from flask_bootstrap import Bootstrap
 
